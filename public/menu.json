@@ -1,0 +1,222 @@
+{
+  "business": {
+    "id": "cafeteria-del-refugio",
+    "name": "Cafetería del Refugio"
+  },
+  "menu": {
+    "sections": [
+      {
+        "id": "bebidas",
+        "name": "Bebidas",
+        "subsections": [
+          {
+            "id": "bebidas-calientes",
+            "name": "Bebidas Calientes",
+            "items": [
+              {
+                "id": "espresso",
+                "name": "Espresso",
+                "price": 2500,
+                "description": "Café corto e intenso, preparado con granos molidos al momento."
+              },
+              {
+                "id": "espresso-doble",
+                "name": "Espresso Doble",
+                "price": 2800,
+                "description": "Doble carga de espresso para quienes buscan más intensidad."
+              },
+              {
+                "id": "americano",
+                "name": "Americano",
+                "price": 3000,
+                "description": "Espresso rebajado con agua caliente, de sabor suave y equilibrado."
+              },
+              {
+                "id": "cortado",
+                "name": "Cortado",
+                "price": 3500,
+                "description": "Espresso con un toque de leche caliente para suavizar su sabor."
+              },
+              {
+                "id": "latte-capuccino",
+                "name": "Latte o Capuccino",
+                "price": 3500,
+                "description": "Café con leche espumosa, ideal para acompañar tus desayunos."
+              },
+              {
+                "id": "chocolate-caliente",
+                "name": "Chocolate caliente",
+                "price": 3500,
+                "description": "Bebida cremosa de chocolate caliente, perfecta para días fríos."
+              },
+              {
+                "id": "leche-caliente",
+                "name": "Leche Caliente",
+                "price": 2500,
+                "description": "Vaso de leche caliente, simple y reconfortante."
+              },
+              {
+                "id": "mate",
+                "name": "Mate",
+                "price": 3000,
+                "description": "Infusión tradicional servida en termo y mate para compartir."
+              },
+              {
+                "id": "leche-vegetal-sin-lactosa",
+                "name": "Leche vegetal o sin lactosa",
+                "price": 500,
+                "description": "Opción de leche alternativa para acompañar tu bebida caliente."
+              }
+            ]
+          },
+          {
+            "id": "bebidas-frias",
+            "name": "Bebidas Frías",
+            "items": [
+              {
+                "id": "jugo-fruta-natural",
+                "name": "Jugo Fruta Natural",
+                "price": 4000,
+                "description": "Jugo preparado con frutas de temporada, sin azúcares añadidos."
+              },
+              {
+                "id": "cerveza-artesanal",
+                "name": "Cerveza Artesanal",
+                "price": 4000,
+                "description": "Cerveza local artesanal, ideal para acompañar tus comidas."
+              },
+              {
+                "id": "cerveza-lata",
+                "name": "Cerveza en lata",
+                "price": 3000,
+                "description": "Cerveza en formato lata, bien fría y lista para servir."
+              },
+              {
+                "id": "bebida-lata-agua-mineral",
+                "name": "Bebida en lata / Agua Mineral",
+                "price": 2500,
+                "description": "Selección de bebidas gaseosas o agua mineral individual."
+              },
+              {
+                "id": "botella-vino",
+                "name": "Botella de vino",
+                "price": 5500,
+                "description": "Botella de vino para compartir, perfecta para maridar pizzas y tablas."
+              }
+            ]
+          }
+        ]
+      },
+
+      {
+        "id": "desayunos",
+        "name": "Desayunos",
+        "items": [
+          {
+            "id": "rayadito",
+            "name": "RAYADITO",
+            "description": "Té o café o jugo pequeño + paila de huevos frescos + pan amasado + mantequilla",
+            "price": 8500
+          },
+          {
+            "id": "chercan",
+            "name": "CHERCÁN",
+            "description": "Té o café o jugo pequeño + sandwich barros jarpa o sandwich del refugio",
+            "price": 8500
+          },
+          {
+            "id": "carancho",
+            "name": "CARANCHO",
+            "description": "Té o café o jugo pequeño + 1 completo italiano",
+            "price": 6000
+          },
+          {
+            "id": "chucao",
+            "name": "CHUCAO",
+            "description": "Té o café o jugo pequeño + pan amasado + mantequilla y mermelada",
+            "price": 5000
+          },
+          {
+            "id": "tiuque",
+            "name": "TIUQUE",
+            "description": "Bowl de avena con leche vegetal + semillas variadas + frutas de temporada",
+            "price": 6000
+          }
+        ]
+      },
+
+      {
+        "id": "agregados",
+        "name": "Agregados",
+        "items": [
+          {
+            "id": "paila-huevos-pan-amasado",
+            "name": "Paila de huevos + pan amasado",
+            "price": 5000,
+            "description": "Huevos frescos revueltos o fritos acompañados de pan amasado casero."
+          },
+          {
+            "id": "sandwich-refugio",
+            "name": "Sandwich del refugio (Huevo, queso y jamón)",
+            "price": 3500,
+            "description": "Sandwich caliente con huevo, queso fundido y jamón en pan fresco."
+          },
+          {
+            "id": "sandwich-barros-jarpa",
+            "name": "Sandwich Barros Jarpa",
+            "price": 3000,
+            "description": "Clásico sandwich de jamón y queso caliente, ideal para cualquier momento."
+          },
+          {
+            "id": "completo-italiano",
+            "name": "Completo italiano",
+            "price": 3000,
+            "description": "Pan de hot dog con vienesa, tomate, palta y mayonesa."
+          },
+          {
+            "id": "pan-amasado-mantequilla",
+            "name": "Pan amasado + mantequilla",
+            "price": 1500,
+            "description": "Porción de pan amasado casero acompañado de mantequilla."
+          },
+          {
+            "id": "agua-caliente-termo",
+            "name": "Agua caliente termo",
+            "price": 1000,
+            "description": "Termo de agua caliente para preparar té, café o infusiones."
+          }
+        ]
+      },
+
+      {
+        "id": "pizzas",
+        "name": "Pizzas",
+        "items": [
+          {
+            "id": "pizza-familiar",
+            "name": "Pizza Familiar (36 cm)",
+            "price": 18000,
+            "description": "Incluye salsa de tomate, orégano y queso como base + 3 ingredientes a elección.",
+            "maxFreeIngredients": 3,
+            "selectableIngredients": [
+              { "id": "tocino", "name": "Tocino" },
+              { "id": "pepperoni", "name": "Pepperoni" },
+              { "id": "salame", "name": "Salame" },
+              { "id": "jamon", "name": "Jamón" },
+              { "id": "carne", "name": "Carne" },
+              { "id": "pimenton-rojo", "name": "Pimentón rojo" },
+              { "id": "choclo", "name": "Choclo" },
+              { "id": "aceitunas", "name": "Aceitunas" },
+              { "id": "tomate", "name": "Tomate" },
+              { "id": "cebolla-dulce", "name": "Cebolla dulce" }
+            ],
+            "extras": [
+              { "id": "extra-queso", "name": "Extra queso", "price": 1000 },
+              { "id": "caja-para-llevar", "name": "Caja para llevar", "price": 500 }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+}

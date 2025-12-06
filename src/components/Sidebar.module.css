@@ -1,0 +1,72 @@
+aside {
+    background-color: var(--background-aside);
+    max-width: 250px;
+    padding: 5px;
+    height: 100vh;
+    display: grid;
+    grid-template-rows: auto 1fr auto;
+    position: sticky;
+    top: 0;
+
+    a {
+        border-radius: 5px;
+        padding: 0.5rem 1rem;
+        border-radius: 0.5rem;
+        display: flex;
+        justify-content: start;
+        align-items: center;
+
+        &:hover {
+            background-color: var(--background-hover);
+            scale: 1.01;
+            transition: 300ms;
+        }
+    }
+
+    p {
+        font-size: 14px;
+        font-weight: bold;
+    }
+
+    small {
+        color: var(--text-small);
+    }
+}
+
+nav {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.isActive {
+    background-color: var(--background-secondary);
+    color: var(--text-secondary);
+    scale: 1.01;
+    transition: 300ms;
+}
+
+.asideIcon {
+    margin-right: 10px;
+}
+
+.userIcon {
+    border: 1px solid;
+    border-radius: 50%;
+    flex-shrink: 0;
+}
+
+.mainNav {
+    justify-content: flex-start;
+    margin-top: 2rem;
+}
+
+.secondaryNav {
+    margin-bottom: 1rem;
+}
+
+section {
+    margin: 1rem 1rem;
+    display: flex;
+    flex-direction: row;
+}
