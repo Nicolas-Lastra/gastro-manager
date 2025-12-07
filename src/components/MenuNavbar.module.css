@@ -1,0 +1,27 @@
+.navbarMenu {
+    display: flex;
+    flex-direction: row;
+    justify-content: start;
+    border-top: 1px solid gray;
+    border-bottom: 1px solid gray;
+}
+
+.navbarButton {
+    margin-right: .5rem;
+    padding: .5rem;
+    font-family: system-ui;
+    font-size: medium;
+    background: none;
+    border: none;
+    color: var(--text-small);
+    cursor: pointer;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+}
+
+.activeSection {
+    border-bottom: 3px solid var(--text-secondary);
+    font-weight: bold;
+    color: var(--text-primary);
+    transition: 300ms;
+}
