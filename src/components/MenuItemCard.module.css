@@ -4,8 +4,7 @@
     grid-template-columns: 2fr 1fr;
     gap: 15px;
     align-items: start;
-    min-width: 340px;
-    max-width: 380px;
+    width: 100%;
 
     img {
         width: 120px;
