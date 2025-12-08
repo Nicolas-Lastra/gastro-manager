@@ -66,7 +66,7 @@ export default function Sidebar() {
           </svg>
           Pedidos
         </NavLink>
-        <NavLink to="/">
+        <NavLink className={({ isActive }) => isActive ? styles.isActive : ''} to="/table-management">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="24"

@@ -5,6 +5,7 @@ import { lazy } from 'react'
 
 const Home = lazy(() => import('./pages/Home.jsx'))
 const Menu = lazy(() => import('./pages/Menu.jsx'))
+const TableManagement = lazy(() => import('./pages/TableManagement.jsx') )
 
 function App() {
 
@@ -13,6 +14,7 @@ function App() {
       <Sidebar />
       <Routes>
         <Route path="/" element={<Home />} />
+        <Route path="/table-management"  element={<TableManagement /> } />
         <Route path="/menu" element={<Menu /> } />
       </Routes>
     </>
