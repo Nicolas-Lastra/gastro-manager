@@ -11,7 +11,7 @@ export default function MenuNavbar({ sections, onSectionChange, currentSection }
             {sections.map((section) => (
                 <button
                     onClick={() => handleSectionChange(section.id)}
-                    className={`${styles.navbarButton} ${styles.menuActive} ${currentSection === section.id ? styles.activeSection : ''}`}
+                    className={`${styles.navbarButton} ${currentSection === section.id ? styles.activeSection : ''}`}
                     key={`nav-${section.id}`}
                 >
                     {section.name}
