@@ -17,6 +17,7 @@ html {
   --text-primary: #ffffff;
   --text-secondary: #13ec5bff;
   --text-small: #93ad9bff;
+  --cards-secondary: #1c2d21ff;
 }
 
 body {
@@ -56,13 +57,15 @@ h1 {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
   gap: 1.5rem;
-
-  @media screen and (max-width: 900px) {
-    grid-template-columns: 1fr;
-  }
 }
 
 .menu-subsection > h3 {
   grid-column: 1 / -1;
   margin-bottom: .5rem;
+}
+
+.tables-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 1.5rem;
 }
