@@ -1,0 +1,72 @@
+.tableCard{
+    border-radius: .5rem;
+    border: 1px solid gray;
+    min-height: 35vh;
+    padding: .75rem;
+    display: grid;
+    grid-template-rows: 1fr 4fr 1fr;
+    align-items: center;
+    background-color: var(--cards-secondary);
+
+    header {
+        display: flex;
+        justify-content: space-between;
+    }
+
+    > p {
+        justify-self: center;
+    }
+
+    footer {
+        display: flex;
+        flex-direction: column;
+    }
+
+    &:hover {
+        transform: scale(1.03);
+        transition: 300ms;
+    }
+}
+
+.tableCard p:first-child {
+    font-weight: bold;
+    
+}
+
+.tableCard p:nth-child(2) {
+    color: var(--text-small);
+}
+
+.seatsContainer {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    
+    svg {
+        margin-left: .25rem;
+    }
+}
+
+.centerContent {
+    justify-items: center;
+
+    > p {
+        margin-bottom: .25rem;
+    }
+}
+
+.isAvailable {
+    color: var(--text-secondary)
+}
+
+.isPending {
+    color: #fde047ff;
+}
+
+.isUnavailable {
+    color: red;
+}
+
+.isReserved {
+    color: aqua;
+}
