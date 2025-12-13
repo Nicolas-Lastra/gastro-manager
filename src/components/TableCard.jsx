@@ -1,6 +1,10 @@
 import styles from "./TableCard.module.css"
+import { useNavigate, useLocation } from "react-router"
 
 export default function TableCard({ table }) {
+
+    const navigate = useNavigate()
+    const currentPath = useLocation().pathname
 
     const tableId = table.id
 
@@ -18,10 +22,14 @@ export default function TableCard({ table }) {
 
     const tableType = table.type === "eat in" ? "Servir" : "Llevar"
 
-    const currentClients = 0
+    const currentClients = table.currentClients
+
+    const handleCardClick = () => {
+        navigate(`${currentPath}/${tableId}`)
+    }
 
     return(
-        <article className={styles.tableCard}>
+        <article className={styles.tableCard} onClick={handleCardClick}>
             <header>
                 <h4>Mesa {tableId}</h4>
 
