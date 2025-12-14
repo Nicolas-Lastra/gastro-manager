@@ -16,7 +16,7 @@ export const useTablesStore = create(
                 const normalized = template.map((table) => ({
                     ...table,
                     currentClients: 0,
-                    currentOrder: null
+                    currentOrder: []
                 }))
 
                 set({ tables: normalized })
@@ -40,7 +40,7 @@ export const useTablesStore = create(
                 const normalized = template.map((table) => ({
                     ...table,
                     currentClients: 0,
-                    currentOrder: null
+                    currentOrder: []
                 }))
 
                 set({ tables: normalized })
