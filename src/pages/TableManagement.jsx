@@ -1,9 +1,17 @@
+import { useEffect } from "react"
 import TableCard from "../components/TableCard"
-import { useTables } from "../context/TablesContext"
+// import { useTables } from "../context/TablesContext"
+import { useTablesStore } from "../store/tablesStore"
 
 export default function TableManagement() {
 
-    const { tables } = useTables()
+    // const { tables } = useTables()
+    const tables = useTablesStore((state) => state.tables)
+    const initializeTables = useTablesStore((state) => state.initializeTables)
+    
+    useEffect(() => {
+        initializeTables()
+    },)
 
     return(
         <main>

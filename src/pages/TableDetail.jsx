@@ -1,15 +1,15 @@
 import { useParams } from "react-router"
 import { useId } from "react"
-import { useTables } from "../context/TablesContext"
+import { useTablesStore } from "../store/tablesStore"
 
 export default function TableDetail() {
 
     const idText = useId()
 
     const { tableId } = useParams()
-    const { getTableById, updateTable } = useTables()
-    const table = getTableById(tableId)
-    console.log(table)
+
+    const table = useTablesStore((state) => state.getTableById(tableId))
+    const updateTable = useTablesStore((state) => state.updateTable)
 
     const handleAddProduct = (event) => {
         event.preventDefault()
@@ -18,16 +18,18 @@ export default function TableDetail() {
 
     const handleAddClient = (event) => {
         event.preventDefault()
-        updateTable(table.id, { currentClients: table.currentClients + 1 })
-        console.log(table.currentClients)
+        updateTable(table.id, {
+            currentClients: table.currentClients + 1
+        })
     }
 
     const handleRemoveClient = (event) => {
         event.preventDefault()
         if(table.currentClients > 0) {
-            updateTable(table.id, { currentClients: table.currentClients - 1 })
+            updateTable(table.id, {
+                currentClients: table.currentClients - 1
+            })
         }
-        console.log(table.currentClients)
     }
 
     return(
