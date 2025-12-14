@@ -29,7 +29,7 @@ export const useTablesStore = create(
             updateTable: (id, updates) => {
                 set({
                     tables: get().tables.map((table) =>
-                        table.id === id ? { ...table, updates } : table
+                        table.id === id ? { ...table, ...updates } : table
                     )
                 })
             },
