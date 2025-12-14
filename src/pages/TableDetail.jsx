@@ -1,10 +1,13 @@
 import { useParams } from "react-router"
 import { useId } from "react"
 import { useTablesStore } from "../store/tablesStore"
+import { useEffect } from "react"
 
 export default function TableDetail() {
 
     const idText = useId()
+    const idType = useId()
+    const idStatus = useId()
 
     const { tableId } = useParams()
 
@@ -32,12 +35,39 @@ export default function TableDetail() {
         }
     }
 
+    const handleTableType = (event) => {
+        event.preventDefault()
+        const tableType = event.target.value
+        updateTable(table.id, {
+            type: tableType
+        })
+    }
+
+    const handleTableStatus = (event) => {
+        event.preventDefault()
+        const tableStatus = event.target.value
+        updateTable(table.id, {
+            status: tableStatus
+        })
+    }
+
+    useEffect(() => {
+        console.log(table)
+    }, [table])
+
     return(
         <main>
             <h1>Mesa - {table.id}</h1>
-            <p>Estado: {table.status}</p>
+            <p>Estado: {
+                    table.status === "available" ? "Disponible" : 
+                    table.status === "reserved" ? "Reservado" : 
+                    table.status === "unavailable" ? "No disponible" : 
+                    table.status === "pending" ? "Pendiente" : 
+                    "Disponible"
+                }
+            </p>
             <p>Clientes: {table.currentClients}/{table.seats}</p>
-            <p>Para: {table.type}</p>
+            <p>Para: {table.type === "eat in" ? "Servir" : table.type === "takeaway" ? "Llevar" : ""}</p>
 
             <form>
                 <div className="search-bar">
@@ -66,8 +96,32 @@ export default function TableDetail() {
                     <button onClick={handleAddProduct}>Agregar</button>
                 </div>
 
-                <div className="search-filters">
-                    <select name="" id=""></select>
+                <div className="table-type">
+                    <select name={idType}
+                    onChange={handleTableType}
+                    defaultValue={table.type === "eat in" ? "eat in" : table.type === "takeaway" ? "takeaway" : ""}
+                    >
+                        <option value="eat in">Servir</option>
+                        <option value="takeaway">Llevar</option>
+                    </select>
+                </div>
+                <div className="table-status">
+                    <select
+                    name={idStatus}
+                    onChange={handleTableStatus}
+                    defaultValue={
+                        table.status === "available" ? "available" : 
+                        table.status === "reserved" ? "reserved" : 
+                        table.status === "unavailable" ? "unavailable" : 
+                        table.status === "pending" ? "pending" : 
+                        ""
+                    }
+                    >
+                        <option value="available">Disponible</option>
+                        <option value="reserved">Reservado</option>
+                        <option value="unavailable">No disponible</option>
+                        <option value="pending">Pendiente</option>
+                    </select>
                 </div>
                 <div className="buttons">
                     <button onClick={handleAddClient}>Agregar cliente</button>
