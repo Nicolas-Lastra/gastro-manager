@@ -3,17 +3,18 @@ import { loadProductsFromMenu } from '../services/productsService'
 
 export const useProductsStore = create((set, get) => ({
     products: [],
+    initialized: false,
 
     initializeProducts: async () => {
-        if (get().products) return
+        if (get().initialized) return
 
         const loadedProducts = await loadProductsFromMenu()
         if (!loadedProducts?.length) return
 
-        set({ products: loadedProducts })
+        set({ products: loadedProducts, initialized: true })
     },
 
     getProductById: (id) => {
-        get().products.find(product => product.id === id)
+        return get().products.find(product => product.id === id)
     }
 })) 
