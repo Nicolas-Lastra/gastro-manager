@@ -1,46 +1,52 @@
 import { useState, useEffect } from "react"
 import MenuSection from "../components/MenuSection"
 import MenuNavbar from "../components/MenuNavbar"
+import { useBusinessStore } from "../store/businessStore"
 
 export default function Menu() {
-    const [loading, setLoading] = useState(true)
-    const [businessName, setBusinessName] = useState('')
-    const [menuSections, setMenuSections] = useState([])
-    const [currentSection, setCurrentSection] = useState([])
+    const [currentSection, setCurrentSection] = useState(null)
+
+    const business = useBusinessStore((state) => state.business)
 
     useEffect(() => {
-        async function fetchMenu() {
-            try {
-                setLoading(true)
+        if(!business) return
 
-                const response = await fetch('/menu.json')
-                const json = await response.json()
-
-                setBusinessName(json.business.name)
-                setMenuSections(json.menu.sections)
-                setCurrentSection(json.menu.sections[0])
-                setLoading(false)
-            } catch(error) {
-                console.error('Error fetching menu: ', error)
-            } finally {
-                setLoading(false)
-            }
+        if (!currentSection && business.menu.sections.length > 0) {
+            setCurrentSection(business.menu.sections[0])
         }
 
-        fetchMenu()
-    }, [])
+    }, [business])
+
+    if (!business || !currentSection) {
+        return (
+            <main>
+                <small>Cargando ...</small>
+            </main>
+        )
+    }
+
+    const businessName = business.business.name
+    const menuSections = business.menu.sections
 
     const handleSectionChange = (sectionId) => {
-        setCurrentSection(menuSections.find(item => item.id === sectionId))
+        const nextSection = menuSections.find((section) => section.id === sectionId)
+        if (nextSection) {
+            setCurrentSection(nextSection)
+        }
     }
 
     return (
         <main>
-            <meta name="description" content="Edita tu carta como prefieras, establece precios, fotos y más." />
+            <meta
+                name="description"
+                content="Edita tu carta como prefieras, establece precios, fotos y más."
+            />
             <h1>Menú - {businessName}</h1>
-            {loading && <small>Cargando ...</small>}
-            <MenuNavbar sections={menuSections} onSectionChange={handleSectionChange} currentSection={currentSection.id} />
-            {/* <MenuList sections={menuSections} /> */}
+            <MenuNavbar
+                sections={menuSections}
+                onSectionChange={handleSectionChange}
+                currentSection={currentSection.id}
+            />
             <MenuSection section={currentSection} />
         </main>
     )
