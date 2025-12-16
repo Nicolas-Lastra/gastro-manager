@@ -1,7 +1,8 @@
 import { useParams } from "react-router"
 import { useId } from "react"
 import { useTablesStore } from "../store/tablesStore"
-import { useEffect } from "react"
+// import { useEffect } from "react"
+import { useProductsStore } from "../store/productsStore"
 
 export default function TableDetail() {
 
@@ -13,6 +14,7 @@ export default function TableDetail() {
 
     const table = useTablesStore((state) => state.getTableById(tableId))
     const updateTable = useTablesStore((state) => state.updateTable)
+    const products = useProductsStore((state) => state.products)
 
     const handleAddProduct = (event) => {
         event.preventDefault()
@@ -51,9 +53,9 @@ export default function TableDetail() {
         })
     }
 
-    useEffect(() => {
-        console.log(table)
-    }, [table])
+    // useEffect(() => {
+    //     console.log(products)
+    // }, [products])
 
     return(
         <main>
@@ -95,6 +97,25 @@ export default function TableDetail() {
                     />
                     <button onClick={handleAddProduct}>Agregar</button>
                 </div>
+
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Products</th>
+                            <th>Price</th>
+                            <th>Add</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {products.map(product => (
+                                <tr key={`product-${product.id}`}>
+                                    <td>{product.name}</td>
+                                    <td>{product.price}</td>
+                                    <td><button>+</button></td>
+                                </tr>
+                            ))}
+                    </tbody>
+                </table>
 
                 <div className="table-type">
                     <select name={idType}
