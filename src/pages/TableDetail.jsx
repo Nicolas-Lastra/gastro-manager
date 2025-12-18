@@ -1,12 +1,11 @@
 import { useParams } from "react-router"
 import { useId, useState } from "react"
 import { useTablesStore } from "../store/tablesStore"
-import { useEffect } from "react"
 import { useProductsStore } from "../store/productsStore"
 import ProductsList from "../components/ProductsList"
+import Order from "../components/Order"
 
-export default function TableDetail() {
-
+function useTables() {
     const idText = useId()
     const idType = useId()
     const idStatus = useId()
@@ -15,8 +14,6 @@ export default function TableDetail() {
 
     const table = useTablesStore((state) => state.getTableById(tableId))
     const updateTable = useTablesStore((state) => state.updateTable)
-    const products = useProductsStore((state) => state.products)
-    const [searchTerm, setSearchTerm] = useState('')
 
     const handleAddClient = (event) => {
         event.preventDefault()
@@ -50,13 +47,47 @@ export default function TableDetail() {
         })
     }
 
+    return {
+        idText,
+        idType,
+        idStatus,
+        table,
+        updateTable,
+        handleAddClient,
+        handleRemoveClient,
+        handleTableType,
+        handleTableStatus
+    }
+}
+
+export default function TableDetail() {
+
+    const {
+        idText,
+        idType,
+        idStatus,
+        table,
+        updateTable,
+        handleAddClient,
+        handleRemoveClient,
+        handleTableType,
+        handleTableStatus
+    } = useTables()
+
+    const products = useProductsStore((state) => state.products)
+    const [searchTerm, setSearchTerm] = useState('')
+
     const filteredProducts = products.filter(product => {
         if (!searchTerm) return true
         return product.name.toLowerCase().includes(searchTerm.toLowerCase())
-    }) 
+    })
 
     const handleSearchChange = (event) => {
         setSearchTerm(event.target.value)
+    }
+
+    const calculateOrderTotal = (order) => {
+        return order.length > 0 ? order.reduce((acc, cur) => acc + cur.price * cur.qty, 0) : 0
     }
 
     const handleAddProduct = (productId) => {
@@ -87,8 +118,11 @@ export default function TableDetail() {
             ]
         }
 
+        const tableTotal = calculateOrderTotal(newOrder)
+
         updateTable(table.id, {
-            currentOrder: newOrder
+            currentOrder: newOrder,
+            total: tableTotal
         })
     }
 
@@ -114,14 +148,13 @@ export default function TableDetail() {
             )
         }
 
+        const tableTotal = calculateOrderTotal(newOrder)
+
         updateTable(table.id, {
-            currentOrder: newOrder
+            currentOrder: newOrder,
+            total: tableTotal
         })
     }
-
-    useEffect(() => {
-        console.log(table.currentOrder)
-    }, [table])
 
     return(
         <main>
@@ -135,6 +168,7 @@ export default function TableDetail() {
                 }
             </p>
             <p>Clientes: {table.currentClients}/{table.seats}</p>
+            <p>Total: <em>$ {table.total}</em></p>
             <p>Para: {table.type === "eat in" ? "Servir" : table.type === "takeaway" ? "Llevar" : ""}</p>
 
             <form>
@@ -201,7 +235,9 @@ export default function TableDetail() {
                 </div>
             </form>
 
-            <ProductsList products={filteredProducts} onAddProduct={handleAddProduct} onRemoveProduct={handleRemoveProduct} />
+            <ProductsList products={filteredProducts} onAddProduct={handleAddProduct} />
+            {/* {table.currentOrder.length > 0 && <OrderTemplate currentOrder={table.currentOrder} onIncreaseButton={handleAddProduct} onDecreaseButton={handleRemoveProduct} />} */}
+            <Order currentOrder={table.currentOrder} onIncreaseButton={handleAddProduct} onDecreaseButton={handleRemoveProduct} />
         </main>
     )
 }
