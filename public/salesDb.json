@@ -1,0 +1,28 @@
+{
+    "sales": [
+        {
+            "id": "sale-uuid",
+            "tableId": 1,
+            "date": "2025-01-12T21:34:00.000Z",
+            "items": [
+                { "productId": "pizza-familiar", "name": "...", "qty": 2, "price": 18000 }
+            ],
+            "subtotal": 36000,
+            "tip": 3600,
+            "total": 39600,
+            "paymentMethod": "cash"
+        },
+        {
+            "id": "sale-uuid",
+            "tableId": 2,
+            "date": "2025-01-12T21:34:00.000Z",
+            "items": [
+                { "productId": "pizza-familiar", "name": "...", "qty": 2, "price": 18000 }
+            ],
+            "subtotal": 36000,
+            "tip": 3600,
+            "total": 39600,
+            "paymentMethod": "cash"
+        }
+    ]
+}
