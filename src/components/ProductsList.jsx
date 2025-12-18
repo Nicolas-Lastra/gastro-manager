@@ -1,11 +1,7 @@
-export default function ProductsList({ products, onAddProduct, onRemoveProduct }) {
+export default function ProductsList({ products, onAddProduct }) {
 
   const handleAddButton = (productId) => {
     onAddProduct(productId)
-  }
-
-  const handleRemoveButton = (productId) => {
-    onRemoveProduct(productId)
   }
 
   return (
@@ -27,11 +23,7 @@ export default function ProductsList({ products, onAddProduct, onRemoveProduct }
               <td>
                 <button
                     onClick={() => handleAddButton(product.id)}
-                >+</button>
-
-                <button
-                    onClick={() => handleRemoveButton(product.id)}
-                >-</button>
+                >Agregar</button>
               </td>
             </tr>
           ))}
