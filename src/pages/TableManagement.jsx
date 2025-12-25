@@ -9,7 +9,7 @@ export default function TableManagement() {
     
     useEffect(() => {
         initializeTables()
-    },)
+    }, [initializeTables])
 
     return(
         <main>
