@@ -1,5 +1,6 @@
 import styles from "./TableCard.module.css"
 import { useNavigate, useLocation } from "react-router"
+import { calculateOrderTotal } from "../utils/order"
 
 export default function TableCard({ table }) {
 
@@ -23,6 +24,8 @@ export default function TableCard({ table }) {
     const tableType = table.type === "eat in" ? "Servir" : "Llevar"
 
     const currentClients = table.currentClients
+
+    const tableTotal = calculateOrderTotal(table.currentOrder)
 
     const handleCardClick = () => {
         navigate(`${currentPath}/${tableId}`)
@@ -66,7 +69,7 @@ export default function TableCard({ table }) {
 
             <footer>
                 <small>Total</small>
-                <em>$ {table.total}</em>
+                <em>$ {tableTotal}</em>
             </footer>
         </article>
     )
