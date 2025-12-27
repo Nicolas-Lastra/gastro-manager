@@ -1,11 +1,11 @@
 export default function Order({ currentOrder, onIncreaseButton, onDecreaseButton }) {
 
-    const increaseOrderQty = (itemId) => {
-        onIncreaseButton(itemId)
-    }
-    const decreaseOrderQty = (itemId) => {
-        onDecreaseButton(itemId)
-    }
+    // const increaseOrderQty = (itemId) => {
+    //     onIncreaseButton(itemId)
+    // }
+    // const decreaseOrderQty = (itemId) => {
+    //     onDecreaseButton(itemId)
+    // }
 
     return(
         <div>
@@ -23,17 +23,17 @@ export default function Order({ currentOrder, onIncreaseButton, onDecreaseButton
 
                 <tbody>
                     {currentOrder.map((item) => (
-                        <tr key={`order-item-${item.productId}`}>
+                        <tr key={`order-item-${item.lineId}`}>
                             <td>{item.name}</td>
                             <td>{item.price}</td>
                             <td>{item.qty}</td>
                             <td>
                                 <button
-                                    onClick={() => increaseOrderQty(item.productId)}
+                                    onClick={() => onIncreaseButton(item.lineId)}
                                 >+</button>
 
                                 <button
-                                    onClick={() => decreaseOrderQty(item.productId)}
+                                    onClick={() => onDecreaseButton(item.lineId)}
                                 >-</button>
                             </td>
                             <td>{item.qty * item.price}</td>
