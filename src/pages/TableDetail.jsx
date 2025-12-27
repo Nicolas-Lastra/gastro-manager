@@ -1,9 +1,12 @@
 import { useParams } from "react-router"
-import { useId, useState } from "react"
+import { useId, useState, useEffect } from "react"
 import { useTablesStore } from "../store/tablesStore"
 import { useProductsStore } from "../store/productsStore"
+import { calculateOrderTotal } from "../utils/order"
 import ProductsList from "../components/ProductsList"
 import Order from "../components/Order"
+import ChecksList from "../components/ChecksList"
+import SplitOrder from "../components/SplitOrder"
 
 function useTables() {
     const idText = useId()
@@ -14,6 +17,7 @@ function useTables() {
 
     const table = useTablesStore((state) => state.getTableById(tableId))
     const updateTable = useTablesStore((state) => state.updateTable)
+    const tableTotal = calculateOrderTotal(table.currentOrder)
 
     const handleAddClient = (event) => {
         event.preventDefault()
@@ -52,6 +56,7 @@ function useTables() {
         idType,
         idStatus,
         table,
+        tableTotal,
         updateTable,
         handleAddClient,
         handleRemoveClient,
@@ -67,7 +72,7 @@ export default function TableDetail() {
         idType,
         idStatus,
         table,
-        updateTable,
+        tableTotal,
         handleAddClient,
         handleRemoveClient,
         handleTableType,
@@ -76,6 +81,9 @@ export default function TableDetail() {
 
     const products = useProductsStore((state) => state.products)
     const [searchTerm, setSearchTerm] = useState('')
+    const addProductToOrder = useTablesStore(state => state.addProductToOrder)
+    const increaseOrderLine = useTablesStore(state => state.increaseOrderLine)
+    const decreaseOrderLine = useTablesStore(state => state.decreaseOrderLine)
 
     const filteredProducts = products.filter(product => {
         if (!searchTerm) return true
@@ -86,75 +94,30 @@ export default function TableDetail() {
         setSearchTerm(event.target.value)
     }
 
-    const calculateOrderTotal = (order) => {
-        return order.length > 0 ? order.reduce((acc, cur) => acc + cur.price * cur.qty, 0) : 0
-    }
-
     const handleAddProduct = (productId) => {
         const product = products.find((p) => p.id === productId)
         if (!product) return
-
-        const existing = table.currentOrder.find(
-            item => item.productId === productId
-        )
-
-        let newOrder
-
-        if (existing) {
-            newOrder = table.currentOrder.map(
-                item => item.productId === productId 
-                    ? { ...item, qty: item.qty + 1 }
-                    : item
-            )
-        } else {
-            newOrder = [
-                ...table.currentOrder,
-                {
-                    productId: product.id,
-                    name: product.name,
-                    price: product.price,
-                    qty: 1
-                }
-            ]
-        }
-
-        const tableTotal = calculateOrderTotal(newOrder)
-
-        updateTable(table.id, {
-            currentOrder: newOrder,
-            total: tableTotal
-        })
+        addProductToOrder(table.id, product)
     }
 
-    const handleRemoveProduct = (productId) => {
+    const createCheck = useTablesStore((state) => state.createCheck)
 
-        const existing = table.currentOrder.find(
-            item => item.productId === productId
-        )
+    const [selectedCheckId, setSelectedCheckId] = useState(null)
 
-        if (!existing) return
-
-        let newOrder
-
-        if (existing.qty === 1) {
-            newOrder = table.currentOrder.filter(
-                item => item.productId !== productId
-            )
-        } else {
-            newOrder = table.currentOrder.map(
-                item => item.productId === productId 
-                    ? { ...item, qty: item.qty - 1 }
-                    : item
-            )
+    useEffect(() => {
+        if (!table) return
+        if (!selectedCheckId && table.checks.length > 0) {
+            setSelectedCheckId(table.checks[0].checkId)
         }
+    }, [table, selectedCheckId])
 
-        const tableTotal = calculateOrderTotal(newOrder)
+    useEffect(() => {
+        if (!table) return
+        if (table.currentOrder.length === 0) return
+        if (table.checks.length > 0) return
 
-        updateTable(table.id, {
-            currentOrder: newOrder,
-            total: tableTotal
-        })
-    }
+        createCheck(table.id)
+    }, [table, createCheck])
 
     return(
         <main>
@@ -168,7 +131,7 @@ export default function TableDetail() {
                 }
             </p>
             <p>Clientes: {table.currentClients}/{table.seats}</p>
-            <p>Total: <em>$ {table.total}</em></p>
+            <p>Total: <em>$ {tableTotal}</em></p>
             <p>Para: {table.type === "eat in" ? "Servir" : table.type === "takeaway" ? "Llevar" : ""}</p>
 
             <form>
@@ -236,8 +199,19 @@ export default function TableDetail() {
             </form>
 
             <ProductsList products={filteredProducts} onAddProduct={handleAddProduct} />
-            {/* {table.currentOrder.length > 0 && <OrderTemplate currentOrder={table.currentOrder} onIncreaseButton={handleAddProduct} onDecreaseButton={handleRemoveProduct} />} */}
-            <Order currentOrder={table.currentOrder} onIncreaseButton={handleAddProduct} onDecreaseButton={handleRemoveProduct} />
+            <Order
+                currentOrder={table.currentOrder}
+                onIncreaseButton={(lineId) => increaseOrderLine(table.id, lineId)}
+                onDecreaseButton={(lineId) => decreaseOrderLine(table.id, lineId)}
+            />
+            <ChecksList
+                tableId={table.id}
+                checks={table.checks}
+                selectedCheckId={selectedCheckId}
+                onSelectCheck={setSelectedCheckId}
+            />
+            <SplitOrder table={table} selectedCheckId={selectedCheckId} />
+            
         </main>
     )
 }
