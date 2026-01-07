@@ -7,6 +7,7 @@ import ProductsList from "../components/ProductsList"
 import Order from "../components/Order"
 import ChecksList from "../components/ChecksList"
 import SplitOrder from "../components/SplitOrder"
+import styles from "./TableDetail.module.css"
 
 function useTables() {
     const idText = useId()
@@ -101,13 +102,27 @@ export default function TableDetail() {
     }
 
     const createCheck = useTablesStore((state) => state.createCheck)
+    const deleteCheck = useTablesStore((state) => state.deleteCheck)
 
     const [selectedCheckId, setSelectedCheckId] = useState(null)
+    
+    const handleDeleteSelectedCheck = (checkIdToDelete) => {
+        if (!checkIdToDelete) return
+
+        const remainingCheck = table.checks.filter((c) => c.checkId !== checkIdToDelete)
+        const nextSelectedId = remainingCheck[0]?.checkId ?? null
+
+        setSelectedCheckId(nextSelectedId)
+        deleteCheck(table.id, checkIdToDelete)
+    }
 
     useEffect(() => {
         if (!table) return
-        if (!selectedCheckId && table.checks.length > 0) {
-            setSelectedCheckId(table.checks[0].checkId)
+
+        const exists = table.checks.some((c) => c.checkId === selectedCheckId)
+
+        if (!selectedCheckId && !exists > 0) {
+            setSelectedCheckId(table.checks[0]?.checkId ?? null)
         }
     }, [table, selectedCheckId])
 
@@ -120,61 +135,75 @@ export default function TableDetail() {
     }, [table, createCheck])
 
     return(
-        <main>
-            <h1>Mesa - {table.id}</h1>
-            <p>Estado: {
-                    table.status === "available" ? "Disponible" : 
-                    table.status === "reserved" ? "Reservado" : 
-                    table.status === "unavailable" ? "No disponible" : 
-                    table.status === "pending" ? "Pendiente" : 
-                    "Disponible"
-                }
-            </p>
-            <p>Clientes: {table.currentClients}/{table.seats}</p>
-            <p>Total: <em>$ {tableTotal}</em></p>
-            <p>Para: {table.type === "eat in" ? "Servir" : table.type === "takeaway" ? "Llevar" : ""}</p>
-
-            <form>
-
-                <div className="table-type">
-                    <select name={idType}
-                    onChange={handleTableType}
-                    defaultValue={table.type === "eat in" ? "eat in" : table.type === "takeaway" ? "takeaway" : ""}
-                    >
-                        <option value="eat in">Servir</option>
-                        <option value="takeaway">Llevar</option>
-                    </select>
+        <main className={styles.tableDetailMain}>
+            <div>
+                <div className={styles.tableHeader}>
+                    <div className={styles.titleAndStatus}>
+                        <h1>Mesa #{table.id}</h1>
+                        
+                        <select
+                        className={styles.tablesSelect}
+                        name={idStatus}
+                        onChange={handleTableStatus}
+                        defaultValue={
+                            table.status === "available" ? "available" : 
+                            table.status === "reserved" ? "reserved" : 
+                            table.status === "unavailable" ? "unavailable" : 
+                            table.status === "pending" ? "pending" : 
+                            ""
+                        }
+                        >
+                            <option value="available">Disponible</option>
+                            <option value="reserved">Reservado</option>
+                            <option value="unavailable">No disponible</option>
+                            <option value="pending">Pendiente</option>
+                        </select>
+                        
+                        <select name={idType}
+                        className={styles.tablesSelect}
+                        onChange={handleTableType}
+                        defaultValue={
+                            table.type === "eat in" ? "eat in" :
+                            table.type === "takeaway" ? "takeaway" :
+                            ""
+                        }
+                        >
+                            <option value="eat in">Servir</option>
+                            <option value="takeaway">Llevar</option>
+                        </select>
+                    </div>
+                    <div className={styles.clients}>
+                        <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                width="18"
+                                height="18"
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                strokeWidth="2"
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                            >
+                                <path d="M10 13a2 2 0 1 0 4 0a2 2 0 0 0 -4 0" />
+                                <path d="M8 21v-1a2 2 0 0 1 2 -2h4a2 2 0 0 1 2 2v1" />
+                                <path d="M15 5a2 2 0 1 0 4 0a2 2 0 0 0 -4 0" />
+                                <path d="M17 10h2a2 2 0 0 1 2 2v1" />
+                                <path d="M5 5a2 2 0 1 0 4 0a2 2 0 0 0 -4 0" />
+                                <path d="M3 13v-1a2 2 0 0 1 2 -2h2" />
+                        </svg>
+                        <p>{table.currentClients}/{table.seats} Personas</p>
+                        <div className="small-buttons-container">
+                            <button className="small-button" onClick={handleAddClient} >+</button>
+                            <button className="small-button" onClick={handleRemoveClient} >-</button>
+                        </div>
+                    </div>
                 </div>
-                <div className="table-status">
-                    <select
-                    name={idStatus}
-                    onChange={handleTableStatus}
-                    defaultValue={
-                        table.status === "available" ? "available" : 
-                        table.status === "reserved" ? "reserved" : 
-                        table.status === "unavailable" ? "unavailable" : 
-                        table.status === "pending" ? "pending" : 
-                        ""
-                    }
-                    >
-                        <option value="available">Disponible</option>
-                        <option value="reserved">Reservado</option>
-                        <option value="unavailable">No disponible</option>
-                        <option value="pending">Pendiente</option>
-                    </select>
-                </div>
-                <div className="buttons">
-                    <button onClick={handleAddClient}>Agregar cliente</button>
-                    <button onClick={handleRemoveClient} >Quitar cliente</button>
-                </div>
-            </form>
 
-            <form>
-                <div className="search-bar">
+                <form className={styles.searchbar}>
                     <svg
                         xmlns="http://www.w3.org/2000/svg"
-                        width="24"
-                        height="24"
+                        width="18"
+                        height="18"
                         viewBox="0 0 24 24"
                         fill="none"
                         stroke="currentColor"
@@ -190,27 +219,31 @@ export default function TableDetail() {
 
                     <input
                         type="text"
-                        placeholder="Ingresa el nombre de un producto"
+                        placeholder="Buscar ítem para agregar al pedido ..."
                         name={idText}
                         value={searchTerm}
                         onChange={handleSearchChange}
                     />
-                </div>
-            </form>
+                </form>
 
-            <ProductsList products={filteredProducts} onAddProduct={handleAddProduct} />
-            <Order
-                currentOrder={table.currentOrder}
-                onIncreaseButton={(lineId) => increaseOrderLine(table.id, lineId)}
-                onDecreaseButton={(lineId) => decreaseOrderLine(table.id, lineId)}
-            />
-            <ChecksList
-                tableId={table.id}
-                checks={table.checks}
-                selectedCheckId={selectedCheckId}
-                onSelectCheck={setSelectedCheckId}
-            />
-            <SplitOrder table={table} selectedCheckId={selectedCheckId} />
+                <ProductsList products={filteredProducts} onAddProduct={handleAddProduct} />
+
+                <Order
+                    currentOrder={table.currentOrder}
+                    onIncreaseButton={(lineId) => increaseOrderLine(table.id, lineId)}
+                    onDecreaseButton={(lineId) => decreaseOrderLine(table.id, lineId)}
+                />
+            </div>
+
+            <div>
+                <ChecksList
+                    tableId={table.id}
+                    checks={table.checks}
+                    selectedCheckId={selectedCheckId}
+                    onSelectCheck={setSelectedCheckId}
+                />
+                <SplitOrder table={table} selectedCheckId={selectedCheckId} onDeleteSelectedCheck={handleDeleteSelectedCheck} />
+            </div>
             
         </main>
     )
