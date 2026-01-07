@@ -1,22 +1,24 @@
 import { useTablesStore } from "../store/tablesStore"
+import styles from "./ChecksList.module.css"
 
 export default function ChecksList({ tableId, checks, selectedCheckId, onSelectCheck }) {
   const createCheck = useTablesStore((s) => s.createCheck)
 
   return (
     <div>
-      <h2>Cuentas</h2>
+      <div className={styles.checksListHeader}>
+        <h2>Cuentas</h2>
+        <button onClick={() => createCheck(tableId)}>+ NUEVA CUENTA</button>
+      </div>
 
-      <button onClick={() => createCheck(tableId)}>Agregar cuenta</button>
-
-      <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
-        {checks.map((check) => (
+      <div>
+        {checks.map((check, index) => (
           <button
             key={check.checkId}
             onClick={() => onSelectCheck(check.checkId)}
             style={{ fontWeight: selectedCheckId === check.checkId ? "bold" : "normal" }}
           >
-            {check.name}
+            Cuenta {index + 1}
           </button>
         ))}
       </div>
