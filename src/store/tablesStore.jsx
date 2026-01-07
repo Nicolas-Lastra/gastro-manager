@@ -117,9 +117,25 @@ export const useTablesStore = create(
                 })
             },
 
+            deleteCheck: (tableId, checkId) => {
+                
+                set({
+                    tables: get().tables.map(table => {
+                        if (table.id !== tableId) return table
+                        
+                        if (!checkId) return table
+
+                        const nextChecks = table.checks.filter(check => check.checkId !== checkId)
+
+                        return {...table, checks: nextChecks}
+                    })
+                })
+            },
+
             addProductToOrder: (tableId, product) => {
                 set({
                     tables: get().tables.map((table) => {
+
                         if (table.id !== tableId) return table
 
                         const existing = table.currentOrder.find((line) => line.productId === product.id)
@@ -251,7 +267,6 @@ export const useTablesStore = create(
                 set({
                     tables: get().tables.map((table) => {
                         if (table.id !== tableId) return table
-                        console.log("Table id: ", table.id)
 
                         return {
                             ...table,
