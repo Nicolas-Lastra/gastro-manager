@@ -18,6 +18,8 @@ html {
   --text-secondary: #13ec5bff;
   --text-small: #93ad9bff;
   --cards-secondary: #1c2d21ff;
+  --border: #28392eff;
+  --border-light: #13ec5bff;
 }
 
 body {
@@ -45,6 +47,46 @@ h1 {
   margin-bottom: 1rem;
 }
 
+button {
+  cursor: pointer;
+}
+
+table {
+  border-radius: 1rem;
+  background: #233027ff;
+
+  table-layout: fixed;
+  border-collapse: collapse;
+
+  th, td {
+    padding: .5rem .75rem;
+    text-align: start;
+  }
+
+  tbody tr:nth-child(odd) {
+    background-color: rgba(255, 255, 255, 0.05);
+  }
+
+  tbody {
+
+    tr {
+      border-top: 2px solid var(--border);
+    }
+
+    /* Last row bottom left radius */
+    tr:last-child td:first-child,
+    tr:last-child th:first-child {
+      border-bottom-left-radius: 1rem;
+    }
+
+    /* Last row bottom right radius */
+    tr:last-child td:last-child,
+    tr:last-child th:last-child {
+      border-bottom-right-radius: 1rem;
+    }
+  }
+}
+
 .menu-section {
   padding-top: 1rem;
   display: flex;
@@ -68,4 +110,28 @@ h1 {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
   gap: 1.5rem;
+}
+
+.small-buttons-container {
+  display: flex;
+  flex-direction: row;
+  gap: .25rem;
+}
+
+.small-button {
+  color: var(--text-small);
+  padding: .075rem .5rem;
+  border-radius: .35rem;
+  border: 1px solid var(--border);
+  background-color: var(--background-secondary);
+  appearance: none;
+  transition: transform 0.2s;
+
+  &:active {
+    transform: scale(1.1);
+  }
+
+  &:disabled {
+    background-color: rgba(255, 255, 255, 0.1);
+  }
 }
