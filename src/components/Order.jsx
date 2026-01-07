@@ -7,6 +7,14 @@ export default function Order({ currentOrder, onIncreaseButton, onDecreaseButton
     //     onDecreaseButton(itemId)
     // }
 
+    if (!currentOrder || currentOrder.length === 0) {
+        return (
+            <div>
+                <p>Agregue productos a la orden ...</p>
+            </div>
+        )
+    }
+
     return(
         <div>
             <h2>Orden Actual</h2>
@@ -16,7 +24,6 @@ export default function Order({ currentOrder, onIncreaseButton, onDecreaseButton
                         <th>Producto</th>
                         <th>Precio</th>
                         <th>Cantidad</th>
-                        <th>Acción</th>
                         <th>Subtotal</th>
                     </tr>
                 </thead>
@@ -26,15 +33,18 @@ export default function Order({ currentOrder, onIncreaseButton, onDecreaseButton
                         <tr key={`order-item-${item.lineId}`}>
                             <td>{item.name}</td>
                             <td>{item.price}</td>
-                            <td>{item.qty}</td>
                             <td>
-                                <button
-                                    onClick={() => onIncreaseButton(item.lineId)}
-                                >+</button>
-
-                                <button
-                                    onClick={() => onDecreaseButton(item.lineId)}
-                                >-</button>
+                                <div className="small-buttons-container">
+                                    <button
+                                            className="small-button"
+                                            onClick={() => onIncreaseButton(item.lineId)}
+                                    >+</button>
+                                    {item.qty}
+                                    <button
+                                        className="small-button"
+                                        onClick={() => onDecreaseButton(item.lineId)}
+                                    >-</button>
+                                </div>
                             </td>
                             <td>{item.qty * item.price}</td>
                         </tr>
