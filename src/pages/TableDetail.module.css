@@ -1,0 +1,87 @@
+.tableDetailMain {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    /* grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); */
+    gap: 1rem;
+}
+
+.tableHeader {
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+    padding: .75rem 0 .75rem 0;
+}
+
+.clients {
+    color: var(--text-small);
+    display: flex;
+    flex-direction: row;
+    gap: .75rem;
+    align-items: center;
+}
+
+.titleAndStatus {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: .5rem;
+
+    h1 {
+        margin-bottom: 0px;
+    }
+
+    p {
+        border-radius: .5rem;
+        padding: .1rem 0.5rem;
+        color: var(--text-secondary);
+        background-color: var(--background-secondary);
+        font-size: 15px;
+        font-weight: bold;
+    }
+}
+
+.searchbar {
+    display: flex;
+    flex-direction: row;
+    gap: .5rem;
+    border: 1px solid var(--border);
+    border-radius: .3rem;
+    padding: .25rem .25rem;
+    align-items: center;
+    margin: .5rem 0 .5rem 0;
+    background: var(--cards-secondary);
+
+    input {
+        background: none;
+        border: none;
+        flex: 1;
+        color: var(--text-primary);
+
+        &:focus {
+            outline: none;
+        }
+    }
+
+    &:hover, &:focus  {
+        outline: 2px solid white;
+    }
+    
+}
+
+.tablesSelect {
+    border: none;
+    border-radius: .75rem;
+    padding: .3rem 1.6rem .3rem .75rem;
+    color: var(--text-secondary);
+    background-color: var(--background-secondary);
+    font-size: 12px;
+    font-weight: bold;
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 0.5rem center;
+    cursor: pointer;
+
+    &:focus {
+        outline: 2px solid var(--border-light);
+    }
+}
