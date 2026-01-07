@@ -12,3 +12,8 @@ export function getAssignedQtyForLineInCheck(table, checkId, lineId) {
         .filter((i) => i.lineId === lineId)
         .reduce((sum, i) => sum + i.qty, 0)
 }
+
+export function getCheckNummber(table, checkId) {
+    const checkNumber = table.checks.findIndex(check => check.checkId === checkId)
+    return checkNumber >= 0 ? checkNumber + 1 : null
+}
