@@ -85,6 +85,7 @@ export default function TableDetail() {
     const addProductToOrder = useTablesStore(state => state.addProductToOrder)
     const increaseOrderLine = useTablesStore(state => state.increaseOrderLine)
     const decreaseOrderLine = useTablesStore(state => state.decreaseOrderLine)
+    const [isProductsOpen, setIsProductsOpen] = useState(false)
 
     const filteredProducts = products.filter(product => {
         if (!searchTerm) return true
@@ -99,6 +100,11 @@ export default function TableDetail() {
         const product = products.find((p) => p.id === productId)
         if (!product) return
         addProductToOrder(table.id, product)
+    }
+
+    const closeProdcutsModal = () => {
+        setIsProductsOpen(false)
+        setSearchTerm("")
     }
 
     const createCheck = useTablesStore((state) => state.createCheck)
@@ -121,10 +127,10 @@ export default function TableDetail() {
 
         const exists = table.checks.some((c) => c.checkId === selectedCheckId)
 
-        if (!selectedCheckId && !exists > 0) {
+        if (!selectedCheckId || !exists) {
             setSelectedCheckId(table.checks[0]?.checkId ?? null)
         }
-    }, [table, selectedCheckId])
+    }, [table?.checks, selectedCheckId])
 
     useEffect(() => {
         if (!table) return
@@ -133,6 +139,19 @@ export default function TableDetail() {
 
         createCheck(table.id)
     }, [table, createCheck])
+
+    useEffect(() => {
+        if(!isProductsOpen) return
+
+        const onKeyDown = (e) => {
+            if (e.key === "Escape") {
+                closeProdcutsModal()
+            }
+        }
+
+        window.addEventListener("keydown", onKeyDown)
+        return() => window.removeEventListener("keydown", onKeyDown)
+    }, [isProductsOpen])
 
     return(
         <main className={styles.tableDetailMain}>
@@ -220,13 +239,42 @@ export default function TableDetail() {
                     <input
                         type="text"
                         placeholder="Buscar ítem para agregar al pedido ..."
+                        onFocus={() => setIsProductsOpen(true)}
                         name={idText}
                         value={searchTerm}
                         onChange={handleSearchChange}
                     />
                 </form>
 
-                <ProductsList products={filteredProducts} onAddProduct={handleAddProduct} />
+                {isProductsOpen && (
+                    <div className={styles.modalOverlay} onClick={closeProdcutsModal}>
+                        <div
+                            className={styles.modalContent}
+                            onClick={(e) => e.stopPropagation()}
+                            >
+                                <header className={styles.modalHeader}>
+                                    <h2>Agregar Producto</h2>
+                                    <button
+                                        type="button"
+                                        className={styles.modalCloseButton}
+                                        onClick={closeProdcutsModal}
+                                        aria-label="Cerrar"
+                                        title="Cerrar (Esc)"
+                                    >X
+                                    </button>
+                                </header>
+                                <input
+                                    autoFocus
+                                    type="text"
+                                    placeholder="Buscar producto ..."
+                                    value={searchTerm}
+                                    onChange={handleSearchChange}
+                            />
+
+                                <ProductsList products={filteredProducts} onAddProduct={handleAddProduct} />
+                        </div>
+                    </div>
+                )}
 
                 <Order
                     currentOrder={table.currentOrder}
