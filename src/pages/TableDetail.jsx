@@ -5,7 +5,7 @@ import { useProductsStore } from "../store/productsStore"
 import { calculateOrderTotal } from "../utils/order"
 import ProductsList from "../components/ProductsList"
 import Order from "../components/Order"
-import ChecksList from "../components/ChecksList"
+import ChecksList from "../components/Checks"
 import SplitOrder from "../components/SplitOrder"
 import styles from "./TableDetail.module.css"
 

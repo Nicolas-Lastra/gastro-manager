@@ -1,5 +1,5 @@
 import { useTablesStore } from "../store/tablesStore"
-import styles from "./ChecksList.module.css"
+import styles from "./Checks.module.css"
 
 export default function ChecksList({ tableId, checks, selectedCheckId, onSelectCheck }) {
   const createCheck = useTablesStore((s) => s.createCheck)
