@@ -155,8 +155,8 @@ export default function TableDetail() {
 
     return(
         <main className={styles.tableDetailMain}>
-            <div>
-                <div className={styles.tableHeader}>
+            <section>
+                <header className={styles.tableHeader}>
                     <div className={styles.titleAndStatus}>
                         <h1>Mesa #{table.id}</h1>
                         
@@ -216,9 +216,9 @@ export default function TableDetail() {
                             <button className="small-button" onClick={handleRemoveClient} >-</button>
                         </div>
                     </div>
-                </div>
+                </header>
 
-                <form className={styles.searchbar}>
+                <form className={styles.searchbar} role="search" onSubmit={(e) => e.preventDefault()}>
                     <svg
                         xmlns="http://www.w3.org/2000/svg"
                         width="18"
@@ -239,6 +239,7 @@ export default function TableDetail() {
                     <input
                         type="text"
                         placeholder="Buscar ítem para agregar al pedido ..."
+                        aria-label="Buscar producto"
                         onFocus={() => setIsProductsOpen(true)}
                         name={idText}
                         value={searchTerm}
@@ -247,7 +248,13 @@ export default function TableDetail() {
                 </form>
 
                 {isProductsOpen && (
-                    <div className={styles.modalOverlay} onClick={closeProdcutsModal}>
+                    <div
+                        className={styles.modalOverlay}
+                        onClick={closeProdcutsModal}
+                        role="dialog"
+                        aria-modal="true"
+                        aria-labelledby="products-dialog-title"
+                        >
                         <div
                             className={styles.modalContent}
                             onClick={(e) => e.stopPropagation()}
@@ -268,6 +275,7 @@ export default function TableDetail() {
                                     type="text"
                                     placeholder="Buscar producto ..."
                                     value={searchTerm}
+                                    className={styles.searchbar}
                                     onChange={handleSearchChange}
                             />
 
@@ -281,9 +289,9 @@ export default function TableDetail() {
                     onIncreaseButton={(lineId) => increaseOrderLine(table.id, lineId)}
                     onDecreaseButton={(lineId) => decreaseOrderLine(table.id, lineId)}
                 />
-            </div>
+            </section>
 
-            <div>
+            <section>
                 <ChecksList
                     tableId={table.id}
                     checks={table.checks}
@@ -291,7 +299,7 @@ export default function TableDetail() {
                     onSelectCheck={setSelectedCheckId}
                 />
                 <SplitOrder table={table} selectedCheckId={selectedCheckId} onDeleteSelectedCheck={handleDeleteSelectedCheck} />
-            </div>
+            </section>
             
         </main>
     )

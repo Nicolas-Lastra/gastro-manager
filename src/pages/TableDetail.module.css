@@ -1,8 +1,13 @@
 .tableDetailMain {
     display: grid;
-    grid-template-columns: 1fr 1fr;
-    /* grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); */
+    /* grid-template-columns: 1fr 1fr; */
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
     gap: 1rem;
+
+    section {
+        display: flex;
+        flex-direction: column;
+    }
 }
 
 .tableHeader {
@@ -49,6 +54,7 @@
     align-items: center;
     margin: .5rem 0 .5rem 0;
     background: var(--cards-secondary);
+    color: var(--text-primary);
 
     input {
         background: none;
@@ -107,12 +113,17 @@
 }
 
 .modalContent {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
   background: #0f1f17;
   width: 600px;
   max-height: 70vh;
   overflow: auto;
   border-radius: 12px;
   padding: 1rem;
+  margin-left: 15vw;
+  margin-right: 15vw;
 }
 
 .tablesSelect {
