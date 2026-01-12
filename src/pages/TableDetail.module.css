@@ -1,11 +1,8 @@
-main {
-    padding: 0;
-    margin: 0;
-}
-
 .tableDetailMain {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(370px, 1fr));
+    padding: 0;
+    margin: 0;
 
     section {
         display: flex;
