@@ -1,12 +1,5 @@
 export default function Order({ currentOrder, onIncreaseButton, onDecreaseButton }) {
 
-    // const increaseOrderQty = (itemId) => {
-    //     onIncreaseButton(itemId)
-    // }
-    // const decreaseOrderQty = (itemId) => {
-    //     onDecreaseButton(itemId)
-    // }
-
     if (!currentOrder || currentOrder.length === 0) {
         return (
             <div>
