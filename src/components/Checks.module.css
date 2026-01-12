@@ -1,5 +1,54 @@
 .checksListHeader {
     display: flex;
-    flex-direction: row;
-    justify-content: space-between;
+    flex-direction: column;
+    background-color: var(--cards-secondary);
+    padding: .75rem;
+    gap: .75rem;
+
+    div {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+
+        p:first-child {
+            color: var(--text-secondary);
+        }
+
+        p {
+            font-size: small;
+        }
+    }
+
+    progress {
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        appearance: none;
+        /* border: 1px solid white;
+        border-radius: 5px; */
+    }
+
+    progress::-webkit-progress-bar {
+        background-color: #3b5443ff;
+        border-radius: 5px;
+    }
+
+    progress::-webkit-progress-value {
+        border-radius: 5px;
+        transition: width 300ms ease;
+    }
+
+    button {
+        border: 1px solid var(--border-light);
+        border-radius: .5rem;
+        color: var(--text-secondary);
+        padding: 5px;
+        background-color: inherit;
+        font-weight: bold;
+        font-size: 12px;
+
+        &:hover {
+            transform: scale(1.05);
+            transition: 300ms;
+        }
+    }
 }
