@@ -3,6 +3,7 @@ import { useId, useState, useEffect } from "react"
 import { useTablesStore } from "../store/tablesStore"
 import { useProductsStore } from "../store/productsStore"
 import { calculateOrderTotal } from "../utils/order"
+import { getAssignedAmountTotal } from "../utils/checks.js"
 import ProductsList from "../components/ProductsList"
 import Order from "../components/Order"
 import Checks from "../components/Checks"
@@ -19,6 +20,7 @@ function useTables() {
     const table = useTablesStore((state) => state.getTableById(tableId))
     const updateTable = useTablesStore((state) => state.updateTable)
     const tableTotal = calculateOrderTotal(table.currentOrder)
+    const assignedAmount = getAssignedAmountTotal(table)
 
     const handleAddClient = (event) => {
         event.preventDefault()
@@ -59,6 +61,7 @@ function useTables() {
         table,
         tableTotal,
         updateTable,
+        assignedAmount,
         handleAddClient,
         handleRemoveClient,
         handleTableType,
@@ -74,6 +77,7 @@ export default function TableDetail() {
         idStatus,
         table,
         tableTotal,
+        assignedAmount,
         handleAddClient,
         handleRemoveClient,
         handleTableType,
@@ -109,28 +113,11 @@ export default function TableDetail() {
 
     const createCheck = useTablesStore((state) => state.createCheck)
     const deleteCheck = useTablesStore((state) => state.deleteCheck)
-
-    const [selectedCheckId, setSelectedCheckId] = useState(null)
     
     const handleDeleteSelectedCheck = (checkIdToDelete) => {
         if (!checkIdToDelete) return
-
-        const remainingCheck = table.checks.filter((c) => c.checkId !== checkIdToDelete)
-        const nextSelectedId = remainingCheck[0]?.checkId ?? null
-
-        setSelectedCheckId(nextSelectedId)
         deleteCheck(table.id, checkIdToDelete)
     }
-
-    useEffect(() => {
-        if (!table) return
-
-        const exists = table.checks.some((c) => c.checkId === selectedCheckId)
-
-        if (!selectedCheckId || !exists) {
-            setSelectedCheckId(table.checks[0]?.checkId ?? null)
-        }
-    }, [table?.checks, selectedCheckId])
 
     useEffect(() => {
         if (!table) return
@@ -295,10 +282,10 @@ export default function TableDetail() {
                 <Checks
                     tableId={table.id}
                     checks={table.checks}
-                    selectedCheckId={selectedCheckId}
-                    onSelectCheck={setSelectedCheckId}
+                    tableTotal={tableTotal}
+                    assigned={assignedAmount}
                 />
-                <SplitOrder table={table} selectedCheckId={selectedCheckId} onDeleteSelectedCheck={handleDeleteSelectedCheck} />
+                <SplitOrder table={table} onDeleteSelectedCheck={handleDeleteSelectedCheck} />
             </section>
             
         </main>
