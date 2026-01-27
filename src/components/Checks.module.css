@@ -20,11 +20,10 @@
     }
 
     progress {
+        width: 100%;
         -webkit-appearance: none;
         -moz-appearance: none;
         appearance: none;
-        /* border: 1px solid white;
-        border-radius: 5px; */
     }
 
     progress::-webkit-progress-bar {
